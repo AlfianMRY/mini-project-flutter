@@ -29,55 +29,61 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            child: Column(
-              children: [
-                LeftBar(barWidth: MediaQuery.of(context).size.width * 0.3),
-                SizedBox(height: 20),
-                LeftBar(barWidth: MediaQuery.of(context).size.width * 0.4),
-                SizedBox(height: 20),
-                LeftBar(barWidth: MediaQuery.of(context).size.width * 0.2),
-              ],
+    return Scaffold(
+      backgroundColor: primaryBgColor,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              child: Column(
+                children: [
+                  LeftBar(barWidth: MediaQuery.of(context).size.width * 0.3),
+                  SizedBox(height: 20),
+                  LeftBar(barWidth: MediaQuery.of(context).size.width * 0.4),
+                  SizedBox(height: 20),
+                  LeftBar(barWidth: MediaQuery.of(context).size.width * 0.2),
+                ],
+              ),
             ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  'Mini Project',
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                    decoration: TextDecoration.none,
-                  ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Mini Project',
+                      style: TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                    Text(
+                      'By: Alfian M Rizal Yuristya',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: primaryColor,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'By: Alfian M Rizal Yuristya',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: primaryColor,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                RightBar(barWidth: MediaQuery.of(context).size.width * 0.3),
-                SizedBox(height: 50),
-                RightBar(barWidth: MediaQuery.of(context).size.width * 0.4),
-              ],
+            Container(
+              child: Column(
+                children: [
+                  RightBar(barWidth: MediaQuery.of(context).size.width * 0.3),
+                  SizedBox(height: 50),
+                  RightBar(barWidth: MediaQuery.of(context).size.width * 0.4),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:mini_project/constants/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/widgets/left_bar.dart';
+import 'package:mini_project/widgets/list_sports.dart';
 import 'package:mini_project/widgets/right_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BmiApp extends StatefulWidget {
   const BmiApp({Key? key}) : super(key: key);
@@ -19,16 +21,20 @@ class _BmiAppState extends State<BmiApp> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference sports =
+        FirebaseFirestore.instance.collection('olahraga');
+    final kardio = sports.where('jenis', isEqualTo: 'Kardio');
+    final nonKardio = sports.where('jenis', isEqualTo: 'Resistance');
     return Scaffold(
-      backgroundColor: mainColor,
+      backgroundColor: primaryBgColor,
       appBar: AppBar(
         title: Text(
           'Menghitung Berat Badan',
-          style: TextStyle(color: secondColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: secondaryBgColor,
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -45,7 +51,7 @@ class _BmiAppState extends State<BmiApp> {
                     style: TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.w600,
-                      color: secondColor,
+                      color: primaryColor,
                     ),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -54,7 +60,7 @@ class _BmiAppState extends State<BmiApp> {
                         hintStyle: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.w300,
-                          color: Colors.white,
+                          color: primaryColor,
                         )),
                   ),
                 ),
@@ -66,7 +72,7 @@ class _BmiAppState extends State<BmiApp> {
                     style: TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.w600,
-                      color: secondColor,
+                      color: primaryColor,
                     ),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -75,14 +81,14 @@ class _BmiAppState extends State<BmiApp> {
                         hintStyle: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.w300,
-                          color: Colors.white,
+                          color: primaryColor,
                         )),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 30),
-            OutlinedButton(
+            MaterialButton(
               onPressed: () {
                 double _h = double.parse(_heightController.text);
                 double _w = double.parse(_weightController.text);
@@ -111,13 +117,13 @@ class _BmiAppState extends State<BmiApp> {
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: secondColor),
+                  border: Border.all(color: primaryColor, width: 2),
                 ),
                 child: Text(
                   'Hitung',
                   style: TextStyle(
                     fontSize: 22,
-                    color: secondColor,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -129,7 +135,7 @@ class _BmiAppState extends State<BmiApp> {
                 _hasil.toStringAsFixed(1),
                 style: TextStyle(
                   fontSize: 60,
-                  color: secondColor,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -137,27 +143,46 @@ class _BmiAppState extends State<BmiApp> {
             SizedBox(height: 30),
             Visibility(
               visible: _textHasil.isNotEmpty,
-              child: Container(
-                child: Text(
-                  _textHasil,
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: secondColor,
-                    fontWeight: FontWeight.w400,
-                  ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      _textHasil,
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: primaryColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Visibility(
+                      visible: _textHasil == 'Berat Anda Berlebih',
+                      child: List_Sports(
+                        sports: kardio,
+                        title: 'Olahraga Kardio',
+                      ),
+                    ),
+                    Visibility(
+                      visible: _textHasil == 'Berat Anda Kurang',
+                      child: List_Sports(
+                        sports: nonKardio,
+                        title: 'Olahraga WorkOut',
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
             SizedBox(height: 50),
-            LeftBar(barWidth: MediaQuery.of(context).size.width * 0.15),
-            SizedBox(height: 20),
             LeftBar(barWidth: MediaQuery.of(context).size.width * 0.3),
             SizedBox(height: 20),
-            LeftBar(barWidth: MediaQuery.of(context).size.width * 0.15),
+            LeftBar(barWidth: MediaQuery.of(context).size.width * 0.4),
+            SizedBox(height: 20),
+            LeftBar(barWidth: MediaQuery.of(context).size.width * 0.2),
             SizedBox(height: 50),
-            RightBar(barWidth: MediaQuery.of(context).size.width * 0.2),
+            RightBar(barWidth: MediaQuery.of(context).size.width * 0.3),
             SizedBox(height: 50),
-            RightBar(barWidth: MediaQuery.of(context).size.width * 0.2),
+            RightBar(barWidth: MediaQuery.of(context).size.width * 0.4),
+            SizedBox(height: 20)
           ],
         ),
       ),

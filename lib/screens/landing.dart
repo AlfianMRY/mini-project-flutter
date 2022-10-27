@@ -3,6 +3,7 @@ import 'package:mini_project/constants/app_constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/list_sports.dart';
+import '../widgets/card_user.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -16,21 +17,24 @@ class LandingPage extends StatelessWidget {
     final nonKardio = sports.where('jenis', isEqualTo: 'Resistance');
 
     return Scaffold(
-      backgroundColor: mainColor,
+      backgroundColor: primaryBgColor,
       appBar: AppBar(
-        backgroundColor: secondColor,
+        backgroundColor: secondaryBgColor,
         title: Text(
           'Home Page',
-          style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
         ),
       ),
       endDrawer: Drawer(
-        backgroundColor: secondColor,
+        backgroundColor: primaryColor,
         child: ListView(
           children: <Widget>[
+            Container(
+              height: 30,
+            ),
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: thirdBgColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,23 +44,12 @@ class LandingPage extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 32),
                   ),
                   SizedBox(height: 20),
-                  Text('${user.email}'),
+                  Text(
+                    '${user.email}',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
                 ],
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.shopping_cart),
-              title: Text('Checkout'),
-              onTap: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.report),
-              title: Text('Transactions'),
-              onTap: () {
-                Navigator.pushNamed(context, '/transactionsList');
-              },
             ),
             Container(
               child: ElevatedButton.icon(
@@ -76,17 +69,27 @@ class LandingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              // height: 200,
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              decoration: BoxDecoration(
+                color: secondaryBgColor.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: CardUser(user: user),
+            ),
             List_Sports(
               sports: kardio,
               title: 'Olahraga Kardio',
             ),
             SizedBox(
-              height: 200,
+              height: 30,
             ),
             List_Sports(
               sports: nonKardio,
-              title: 'Olahraga Kardio',
+              title: 'Olahraga WorkOut',
             ),
+            SizedBox(height: 20)
           ],
         ),
       ),

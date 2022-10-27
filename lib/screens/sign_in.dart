@@ -88,7 +88,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     label: Text(
                       'Sign In',
-                      style: TextStyle(fontSize: 24, color: secondColor),
+                      style: TextStyle(fontSize: 24, color: secondaryColor),
                     ),
                   ),
                   SizedBox(height: 10),
